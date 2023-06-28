@@ -1,8 +1,15 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 service KeyValueService {
   rpc GetValue(GetValueRequest) returns (GetValueResponse) {}
   rpc StoreValue(StoreValueRequest) returns (StoreValueResponse) {}
+}
+
+message Value {
+  google.protobuf.Timestamp update_time = 1;
+  bytes payload = 2;
 }
 
 message StoreValueResponse {
@@ -15,11 +22,10 @@ message GetValueRequest {
 }
 
 message GetValueResponse {
-  string value = 1;
+  Value value = 1;
 }
 
 message StoreValueRequest {
   string key = 1;
-  string value = 2;
-  repeated int32 spreading_request_prefix = 3;
+  Value value = 2;
 }
