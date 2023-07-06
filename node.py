@@ -10,15 +10,16 @@ SERVER_ADDR = '0.0.0.0:1234'
 class Storage(service.KeyValueServiceServicer):
     def GetValue(self, request, context):
         key = request.key
-        print("get value (k = {key})")
-        return stub.GetValueResponse(value=f"stored value (k = {key})")
+        print(f"get value (k = {key})")
+        value = stub.Value(payload=bytes(f"with key {key} return some value...", encoding="UTF-8"))
+        return stub.GetValueResponse(value=value)
 
     def StoreValue(self, request, context):
         key = request.key
         value = request.value
-        spreading_request_prefix = request.spreading_request_prefix
-        print("store value (k = {key}, v = {value}, srp = {spreading_request_prefix})")
-        return stub.StoreValueResponse(code=200, message=f"stored (k = {key}, v = {value}, srp = {spreading_request_prefix})")
+        print(value.update_time)
+        print(f"store value (k = {key}, v = {value})")
+        return stub.StoreValueResponse(code=200, message=f"stored (k = {key}, v = {value}, srp = )")
 
 
 if __name__ == '__main__':
