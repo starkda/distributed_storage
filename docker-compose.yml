@@ -1,0 +1,10 @@
+version: '3'
+services:
+  myscript:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    network_mode: host
+    command: python opcua_server.py 0.0.0.0:1234 0 1
